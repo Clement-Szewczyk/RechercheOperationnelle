@@ -8,7 +8,7 @@ class Graphe:
         self.etats = []
         self.transitions = []
 
-    def ajouter_etat(self, nom):
+    def ajouter_etat(self, nom ):
         etat = Etat(nom)
         self.etats.append(etat)
         
@@ -26,8 +26,7 @@ class Graphe:
             result += f'{transition}\n'
         return  result
         
-       
-
+        
     def to_dot(self):
         dot = Digraph()
         for etat in self.etats:
