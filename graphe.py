@@ -1,6 +1,7 @@
 from etat import Etat
 from transition import Transition
 from graphviz import Digraph
+import networkx as nx
 
 class Graphe:
 
@@ -40,19 +41,30 @@ class Graphe:
         path = "images/"+filename
         dot.render(path, format='png', cleanup=True)
 
-    def exporter(self, filename):
-        path = "graphe/"+filename
-        with open(path, 'w') as file:
-            file.write(' '.join([etat.nom for etat in self.etats])+ '\n')
-            for transition in self.transitions:
-                file.write(f'{transition.depart} {transition.arrive}\n')
-
-    def importer(self, filename):
+    
+    def lireDimacs(self, filename): 
+        graph = nx.Graph()
         with open(filename, 'r') as file:
-            etats = file.readline().split()
-            for etat in etats:
-                self.ajouter_etat(etat)
             for line in file:
-                depart, arrive = line.split()
-                self.ajouter_transition(depart, arrive)
+                if line.startswith('c'):
+                    continue  # Skip comment lines
+                elif line.startswith('p'):
+                    parts = line.split()
+                    num_vertices = int(parts[2])
+                    num_edges = int(parts[3])
+                elif line.startswith('e'):
+                    parts = line.split()
+                    u = int(parts[1])
+                    v = int(parts[2])
+                    graph.add_edge(u, v)
+        return graph
+    
+    def creerGrapheDimacs(self, filename):
+        dimacs = self.lireDimacs(filename)
+        for node in dimacs.nodes():
+            self.ajouter_etat(str(node))
+        for edge in dimacs.edges():
+            self.ajouter_transition(str(edge[0]), str(edge[1]))
+
+
 
