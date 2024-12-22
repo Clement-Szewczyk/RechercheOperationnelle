@@ -1,4 +1,3 @@
-
 from graphe import Graphe
 
 graphe = Graphe()

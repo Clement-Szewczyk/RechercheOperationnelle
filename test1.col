@@ -1,0 +1,8 @@
+c Exemple de graphe au format .col
+c Ce graphe a 4 sommets et 5 arêtes
+p edge 4 5
+e 1 2
+e 1 3
+e 2 3
+e 2 4
+e 3 4
