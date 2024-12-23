@@ -1,5 +1,30 @@
 # Suivie du projet
 
+
+**23/12/20224**
+
+Clément : 
+
+*Bibliothèques*
+
+- graphviz : permet d'avoir un visuel du graphe au format png (Utilisé l'année dernière avec les Automates). Il permet la création d'un graphe au format `dot` qui peut être ensuite transformer en image
+- networkx : permet la gestion de graphe complexe. 
+
+Networkx fonctionne de la même façon que la classe Graphe, Etat, transition. Je l'avais utilisé comme ça pour la lecture du fichier Dimacs (c'est ce que j'avais vu sur Stackoverflow). Je me suis penchais un peu plus sur son fonctionnement ce matin.  
+
+Pour l'instant networkx pas besoin de l'avoir et graphviz que si on veut faire un affichage en png. 
+
+*Structure de données* 
+
+j'ai récupérer la même structure de données que les Automates car dans ça ressemble au niveau de la gestion (on a des État (Noeud) et des Transition) 
+Si on utilise celle-ci on pourra utilisé la bibliothèque networkx ou ce que j'avais fait pour Théories des langages
+
+Mais comme on doit être le plus optimiser possible pour de grand graphes, il sera plus judicieux d'utiliser la liste de successeur
+
+*Visuel Liste successeur*
+
+Si on part sur cette structure de données, je penses qu'il y a moyen de l'interpréter pour l'afficher dans une image comme ce que je faisais.
+
 **22/12/2024**
 
 Jade :
@@ -47,7 +72,9 @@ _Dans le fichier graphe.py_
 - ajout de la méthode to_png(self, filename) qui permet de générer un fichier png à partir du fichier dot.
 - ajout de la méthode exporter(self, filename) qui permet d'exporter le graphe au format txt.
 - ajout de la méthode importer(self, filename) qui permet d'importer un graphe à partir d'un fichier txt.
-- **19/12/2024**
+  
+
+**19/12/2024**
 
 Clément :
 
