@@ -41,6 +41,67 @@ def lire_graphe_col(fichier):
     return graphe
 
 
+
+def exporter_graphe_col(fichier, graphe):
+    """
+    Exporte un graphe sous forme de liste d'adjacence dans un fichier .col.
+
+    :param fichier: Chemin du fichier .col.
+    :param graphe: Dictionnaire représentant le graphe sous forme de liste d'adjacence.
+    """
+    try:
+        with open(fichier, 'w') as f:
+            f.write(f"p edge {len(graphe)} {sum(len(v) for v in graphe.values()) // 2}\n")
+            for sommet, voisins in graphe.items():
+                for voisin in voisins:
+                    if sommet < voisin:
+                        f.write(f"e {sommet} {voisin}\n")
+    except Exception as e:
+        print(f"Une erreur s'est produite lors de l'écriture du fichier : {e}")
+
+
+def ajouter_Sommet(graphe, sommet):
+    """
+    Ajoute un sommet au graphe.
+
+    :param graphe: Dictionnaire représentant le graphe.
+    :param sommet: Numéro du sommet à ajouter.
+    """
+    if sommet not in graphe:
+        graphe[sommet] = []
+    else:
+        print(f"Le sommet {sommet} existe déjà dans le graphe.")
+
+
+def ajouter_Arete(graphe, u, v):
+    """
+    Ajoute une arête entre deux sommets du graphe.
+
+    :param graphe: Dictionnaire représentant le graphe.
+    :param u: Numéro du premier sommet.
+    :param v: Numéro du deuxième sommet.
+    """
+    if u in graphe and v in graphe:
+        graphe[u].append(v)
+        graphe[v].append(u)
+    else:
+        print("Les sommets spécifiés n'existent pas dans le graphe.")
+
+def supprimer_Sommet(graphe, sommet):
+    """
+    Supprime un sommet du graphe.
+
+    :param graphe: Dictionnaire représentant le graphe.
+    :param sommet: Numéro du sommet à supprimer.
+    """
+    if sommet in graphe:
+        for voisin in graphe[sommet]:
+            graphe[voisin].remove(sommet)
+        del graphe[sommet]
+    else:
+        print(f"Le sommet {sommet} n'existe pas dans le graphe.")
+
+
 def afficher_graphe(graphe):
     """
     Affiche le graphe sous forme de liste d'adjacence.
@@ -51,14 +112,27 @@ def afficher_graphe(graphe):
         print(f"{sommet} -> {', '.join(map(str, voisins))}")
 
 
+
 # Exemple d'utilisation
 if __name__ == "__main__":
     # Exemple : Remplacez 'chemin_vers_fichier.col' par le chemin réel du fichier .col
-    chemin_fichier = 'test1.col'
+    chemin_fichier = 'graphe/test1.col'
     graphe = lire_graphe_col(chemin_fichier)
 
     if graphe:
         print("Graphe lu avec succès :")
         afficher_graphe(graphe)
+        # Ajouter un sommet
+        ajouter_Sommet(graphe, 6)
+        # Ajouter une arête
+        ajouter_Arete(graphe, 6, 1)
+        print("Graphe modifié :")
+        afficher_graphe(graphe)
+        exporter_graphe_col('graphe/test1_export.col', graphe)
+        #supprimer_Arete(graphe, 6, 1)
+        supprimer_Sommet(graphe, 6)
+        print("Graphe modifié :")
+        afficher_graphe(graphe)
+        print(graphe)
     else:
         print("Le graphe n'a pas pu être chargé.")

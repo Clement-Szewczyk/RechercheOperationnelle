@@ -25,6 +25,11 @@ Mais comme on doit être le plus optimiser possible pour de grand graphes, il se
 
 Si on part sur cette structure de données, je penses qu'il y a moyen de l'interpréter pour l'afficher dans une image comme ce que je faisais.
 
+
+J'ai ajouté la fonction export col dans le fichier liste_successeur.py qui permet de créer un fichier col à partir d'une liste de successeurs.
+
+J'ai ajouté une fonction permettant d'ajouter un sommet à la liste de successeurs et une fonction permettant d'ajouter une arrête. Pour la suppression, lorsque l'on supprime un sommet, cela supprime également les arrêtes qui y sont liées.
+
 **22/12/2024**
 
 Jade :
