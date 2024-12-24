@@ -1,3 +1,6 @@
+
+from graphviz import Digraph
+
 # Parseur DIMACS pour les graphes au format .col
 
 def lire_graphe_col(fichier):
@@ -41,6 +44,8 @@ def lire_graphe_col(fichier):
     return graphe
 
 
+# Exportateur de graphe au format .col
+
 
 def exporter_graphe_col(fichier, graphe):
     """
@@ -59,6 +64,43 @@ def exporter_graphe_col(fichier, graphe):
     except Exception as e:
         print(f"Une erreur s'est produite lors de l'écriture du fichier : {e}")
 
+
+# Convertisseur de graphe en format DOT et PNG
+
+def to_dot(graphe):
+    """
+    Convertit un graphe sous forme de liste d'adjacence en un graphe au format DOT.
+
+    :param graphe: Dictionnaire représentant le graphe sous forme de liste d'adjacence.
+    :return: Une chaîne de caractères représentant le graphe au format DOT.
+    """
+    dot = Digraph()
+    
+    # Sommets
+    for sommet in graphe:
+        dot.node(str(sommet))
+    for sommet, voisins in graphe.items():
+        for voisin in voisins:
+            if sommet < voisin:
+                dot.edge(str(sommet), str(voisin))
+
+    return dot
+
+def to_png(graphe, fichier_png):
+    """
+    Convertit un graphe sous forme de liste d'adjacence en un fichier PNG.
+
+    :param graphe: Dictionnaire représentant le graphe sous forme de liste d'adjacence.
+    :param fichier_png: Chemin du fichier PNG.
+    """
+    dot = to_dot(graphe)
+    dot.render(fichier_png, format='png', cleanup=True)
+
+
+
+
+
+# Modification du graphe
 
 def ajouter_Sommet(graphe, sommet):
     """
@@ -102,6 +144,8 @@ def supprimer_Sommet(graphe, sommet):
         print(f"Le sommet {sommet} n'existe pas dans le graphe.")
 
 
+# Affichage du graphe
+
 def afficher_graphe(graphe):
     """
     Affiche le graphe sous forme de liste d'adjacence.
@@ -134,5 +178,8 @@ if __name__ == "__main__":
         print("Graphe modifié :")
         afficher_graphe(graphe)
         print(graphe)
+        dot = to_dot(graphe)
+        print(dot)
+        to_png(graphe, 'images/col')
     else:
         print("Le graphe n'a pas pu être chargé.")

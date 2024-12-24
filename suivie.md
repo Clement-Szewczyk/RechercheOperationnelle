@@ -1,6 +1,20 @@
 # Suivie du projet
 
 
+**24/12/2024**
+
+Clément :
+
+
+Ajout de la fonction permettant d'exporter un graphe en image. Pour cela, je convertit le graphe au format dot qui est utilisé par la bibliothèque graphviz pour générer une image en png
+
+
+Pour installer graphviz, il faut utiliser la commande suivante :
+```bash
+pip install graphviz
+```
+
+
 **23/12/20224**
 
 Clément : 
