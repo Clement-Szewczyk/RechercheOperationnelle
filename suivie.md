@@ -14,6 +14,10 @@ Pour installer graphviz, il faut utiliser la commande suivante :
 pip install graphviz
 ```
 
+Fichier testCouleur.py : 
+
+Test de graphe en png avec des noeuds de couleurs différentes.
+
 
 **23/12/20224**
 
