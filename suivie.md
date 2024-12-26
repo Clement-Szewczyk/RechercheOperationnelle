@@ -1,5 +1,14 @@
 # Suivie du projet
 
+**26/12/2024**
+
+Clément :
+
+Ajout de la fonction permettant d'implémenter l'algorithme de Welsh Powell qui retourne une coloration.
+
+Ajout d'un fonction qui retourne un graphe coloré avec la structure {Sommet : (couleur, [voisins])}
+
+Ajout d'un fichier `maintest_WelshPowell.py` qui permet de tester l'algorithme de Welsh Powell sur un graphe. 
 
 **24/12/2024**
 
@@ -76,6 +85,18 @@ Pour les algorithmes à choisir, je sais pas trop vers quoi on peut s'orienter, 
 J'attends que tu m'ais vite fait expliqué ta vision sur le projet (pourquoi les objets états, transistion, etc, pourquoi faire et dans quel but ?) avant de modifier quoi que ce soit ^^ Lundi on peut voir pour s'organiser vite fait appel si tu veux mais je pourrais pas la faire longue :) mais ça peut valoir le coups parce qu'après il faudra attendre le 25 :)
 D'ailleurs pour info, j'aurai tendance à travailler sur le projet le soir ou le midi pendant mes pauses
 
+
+**19/12/2024**
+
+Clément :
+
+- Créaion de la méthode lireDimacs(self, filename) qui permet de lire un fichier au format Dimacs et d'intégrer les informations dans un graphe avec la bibliothèque Networkx.
+- Création de la méthode creerGrapheDIacs(self, filename) qui permet de créer un graphe à partir d'un fichier au format Dimacs en utilisant la méthode lireDimacs(self, filename). Les données sont ensuite ensuite rentrée dans nos classes Etat et Transition pour les utilisées dans notre classe Graphe.
+- Suppression de la méthode exporter(self, filename) qui n'était pas utile.
+- Supression de la méthode importer(self, filename) qui n'était pas utile.
+
+
+
 **16/12/2024**
 
 Clément :
@@ -97,11 +118,3 @@ _Dans le fichier graphe.py_
 - ajout de la méthode importer(self, filename) qui permet d'importer un graphe à partir d'un fichier txt.
   
 
-**19/12/2024**
-
-Clément :
-
-- Créaion de la méthode lireDimacs(self, filename) qui permet de lire un fichier au format Dimacs et d'intégrer les informations dans un graphe avec la bibliothèque Networkx.
-- Création de la méthode creerGrapheDIacs(self, filename) qui permet de créer un graphe à partir d'un fichier au format Dimacs en utilisant la méthode lireDimacs(self, filename). Les données sont ensuite ensuite rentrée dans nos classes Etat et Transition pour les utilisées dans notre classe Graphe.
-- Suppression de la méthode exporter(self, filename) qui n'était pas utile.
-- Supression de la méthode importer(self, filename) qui n'était pas utile.

@@ -1,7 +1,5 @@
 import liste_successeur  as ls 
 
-
-
 def welsh_Powell(graphe):
     """
     Algorithme de coloration de graphe de Welsh-Powell.
@@ -26,7 +24,7 @@ def welsh_Powell(graphe):
             if voisin in coloration and coloration[voisin] == couleur:
                 couleur_disponible = False
                 break
-
+        
         if couleur_disponible:
             coloration[sommet] = couleur
         else:
@@ -53,37 +51,25 @@ def graphe_colorie(graphe, coloration):
     return graphe_colore
 
 
-def evaluer_coloration(graphe_colore):
+def evaluer_coloration(graphe, coloration): # A revoir
     """
-    Évalue la qualité d'une coloration.
+    Évalue une coloration de graphe en comptant le nombre de conflits.
 
-    :param graphe_colore: Dictionnaire d'un graphe coloré avec la strucutre {Sommet: (couleur, [voisins])}.
-    :return: Nombre de conflits dans la coloration.
+    :param graphe: Dictionnaire représentant le graphe.
+    :param coloration: Dictionnaire {sommet: couleur}.
+    :return: Nombre de conflits.
     """
     conflits = 0
 
-    for sommet, (couleur, voisins) in graphe_colore.items():
+    for sommet, voisins in graphe.items():
         for voisin in voisins:
-            if couleur == graphe_colore[voisin][0]:
+            if voisin in coloration and coloration[voisin] == coloration[sommet]:
                 conflits += 1
 
-    return conflits // 2  # Chaque conflit est compté deux fois
-    
+    return conflits // 2
 
-graphe = {}
-fichier = "graphe/test1.col"
+        
 
-graphe  = ls.lire_graphe_col(fichier)
-print("Graphe : ", graphe)
 
-coloration = welsh_Powell(graphe)
-
-print("Coloration : ", coloration)
-
-graphe_colore = graphe_colorie(graphe, coloration)
-print("Graphe coloré : ", graphe_colore)
-
-score = evaluer_coloration(graphe_colore)
-print("Score : ", score)
 
 
