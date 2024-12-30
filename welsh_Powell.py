@@ -33,24 +33,6 @@ def welsh_Powell(graphe):
     
     return coloration
 
-
-
-def graphe_colorie(graphe, coloration):
-    """
-    Colorie un graphe selon une coloration donnée.
-
-    :param graphe: Dictionnaire représentant le graphe.
-    :param coloration: Dictionnaire {sommet: couleur}.
-    :return: Dictionnaire d'un graphe coloré avec la strucutre {Sommet: (couleur, [voisins])}.
-    """
-    graphe_colore = {}
-
-    for sommet, couleur in coloration.items():
-        graphe_colore[sommet] = (couleur, graphe[sommet])
-
-    return graphe_colore
-
-
 def evaluer_coloration(graphe, coloration): # A revoir
     """
     Évalue une coloration de graphe en comptant le nombre de conflits.

@@ -156,6 +156,25 @@ def afficher_graphe(graphe):
         print(f"{sommet} -> {', '.join(map(str, voisins))}")
 
 
+def graphe_colorie(graphe, coloration):
+    """
+    Colorie un graphe selon une coloration donnée.
+
+    :param graphe: Dictionnaire représentant le graphe.
+    :param coloration: Dictionnaire {sommet: couleur}.
+    :return: Dictionnaire d'un graphe coloré avec la strucutre {Sommet: (couleur, [voisins])}.
+    """
+    graphe_colore = {}
+
+    for sommet, couleur in coloration.items():
+        graphe_colore[sommet] = (couleur, graphe[sommet])
+
+    return graphe_colore
+
+def exporter_graphe_colore(grapheColore, fichier):
+
+    pass
+
 
 # Exemple d'utilisation
 if __name__ == "__main__":
