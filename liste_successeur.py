@@ -172,9 +172,66 @@ def graphe_colorie(graphe, coloration):
     return graphe_colore
 
 def exporter_graphe_colore(grapheColore, fichier):
+    """
+    Exporter un graphe coloré dans un fichier .col.
 
-    pass
+    :param grapheColore: Dictionnaire d'un graphe coloré avec la strucutre {Sommet: (couleur, [voisins])}.
+    :param fichier: Chemin du fichier .col.
+    :retun: None
+    """
 
+    try:
+        with open(fichier, 'w') as f:
+            f.write("c Couleur Noeud\n")
+            for sommet, (couleur, voisins) in grapheColore.items():
+                f.write(f"a {sommet} {couleur}\n")
+            
+            nbArc = 0
+            for sommet, (couleur, voisins) in grapheColore.items():
+                nbArc += len(voisins)
+            
+            
+            f.write(f"p edge {len(grapheColore)} {nbArc // 2}\n")
+            for sommet, (couleur, voisins) in grapheColore.items():
+                for voisin in voisins:
+                    if sommet < voisin:
+                        f.write(f"e {sommet} {voisin}\n")
+    except Exception as e:
+        print(f"Une erreur s'est produite lors de l'écriture du fichier : {e}")
+
+
+def lire_graphe_colore(fichier):
+    """
+    Lit un fichier .col et retourne une structure de graphe coloré sous forme de liste d'adjacence.
+
+    :param fichier: Chemin du fichier .col.
+    :return: Un dictionnaire représentant le graphe coloré sous forme {Sommet: (couleur, [voisins])}
+    """
+    graphe = {}
+
+    try:
+        with open(fichier, 'r') as f:
+            lignes = f.readlines()
+
+        for ligne in lignes:
+            #Ajoute un sommet et une couleur à un graphe
+            if ligne.startswith('a'):
+                _, sommet, couleur = ligne.split()
+                sommet, couleur = int(sommet), int(couleur)
+                graphe[sommet] = (couleur, [])
+            elif ligne.startswith('e'):
+                _, u, v = ligne.split()
+                u, v = int(u), int(v)
+                graphe[u][1].append(v)
+                graphe[v][1].append(u)
+            else:
+                continue
+
+    except FileNotFoundError:
+        print(f"Erreur : le fichier {fichier} est introuvable.")
+
+
+    return graphe
 
 # Exemple d'utilisation
 if __name__ == "__main__":

@@ -1,5 +1,13 @@
 # Suivie du projet
 
+**31/12/2024**
+
+Clément :
+
+Ajout de la fonction `exporer_graphe_colore` qui permet d'exporter un graphe coloré dans le format Dimacs. N'ayant pas trouvé comment stocker les couleurs dans le format dimacs, j'ai décidé de mettre la lettre `a` devant les lignes qui définisse la couleur d'un sommet. Pour chaque ligne retournant la couleur d'un somment on aurat la structure suivante : `a 1 3` $\leftarrow$ sommet 1 avec la couleur 3.
+
+Ajout de la fonction `lire_graphe_colore` qui permet de lire un fichier au format Dimacs et de retourner un graphe coloré. Contrairement à la fonction `lireDimacs` qui retourne un graphe non coloré, cette fonction retourne un graphe coloré avec la structure {Sommet : (couleur, [voisins])}. Elle prend en compte le nouveau type `a` que j'ai ajouter lors de l'export afin de récupérer les couleurs des sommets.
+
 **26/12/2024**
 
 Clément :

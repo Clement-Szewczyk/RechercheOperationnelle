@@ -3,7 +3,7 @@ from welsh_Powell import welsh_Powell
 from hill_Climbing import hill_climbing
 
 # Charger le graphe
-chemin_fichier = 'graphe/test1.col'
+chemin_fichier = 'graphe/test2.col'
 graphe = lire_graphe_col(chemin_fichier)
 
 # Générer une solution initiale avec Welsh-Powell
