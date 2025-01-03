@@ -171,6 +171,21 @@ def graphe_colorie(graphe, coloration):
 
     return graphe_colore
 
+def evaluer_coloration(graphe_colore):
+    """
+    Évalue une coloration de graphe en comptant le nombre de conflits.
+
+    :param graphe_colore: Dictionnaire représentant le graphe coloré avec la structure {Sommet: (couleur, [voisins])}.
+    :return: Nombre de conflits.
+    """
+    
+    score = 0   
+    for sommet, (couleur, voisins) in graphe_colore.items():
+        for voisin in voisins:
+            if voisin in graphe_colore and graphe_colore[voisin][0] == couleur:
+                score += 1
+    return score // 2
+
 def exporter_graphe_colore(grapheColore, fichier):
     """
     Exporter un graphe coloré dans un fichier .col.
@@ -232,6 +247,9 @@ def lire_graphe_colore(fichier):
 
 
     return graphe
+
+
+
 
 # Exemple d'utilisation
 if __name__ == "__main__":

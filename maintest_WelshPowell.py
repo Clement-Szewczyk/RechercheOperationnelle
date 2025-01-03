@@ -3,25 +3,27 @@ import welsh_Powell as wp
 
 
 graphe = {}
-fichier = "graphe/test1.col"
+fichier = "graphe/test5.col"
 
 graphe  = ls.lire_graphe_col(fichier)
-print("Graphe : ", graphe)
+#print("Graphe : ", graphe)
 
 
-coloration = wp.welsh_Powell(graphe)
+coloration, temps = wp.welsh_Powell(graphe)
+print("Fichier : ", fichier)
+#print("Coloration : ", coloration)
+print("Temps d'exécution : ", temps)
+nb_couleur = wp.nb_couleur(coloration)
+print("Nombre de couleurs : ", nb_couleur)
 
-print("Coloration : ", coloration)
 
 graphe_colore = ls.graphe_colorie(graphe, coloration)
-print("Graphe coloré : ", graphe_colore)
+#print("Graphe coloré : ", graphe_colore)
 
-score = wp.evaluer_coloration(graphe, {})
+
+
+score = ls.evaluer_coloration(graphe_colore)
 print("Score : ", score)
 
-ls.exporter_graphe_colore(graphe_colore, "graphe/test1_colore.col")
-
-graphe2 = ls.lire_graphe_colore("graphe/test1_colore.col")
 
 
-print("Graphe 2 : ", graphe2)

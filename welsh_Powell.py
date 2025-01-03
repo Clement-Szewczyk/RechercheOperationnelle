@@ -1,4 +1,5 @@
 import liste_successeur  as ls 
+import time
 
 def welsh_Powell(graphe):
     """
@@ -7,6 +8,7 @@ def welsh_Powell(graphe):
     :param graphe: Dictionnaire représentant le graphe.
     :return: Dictionnaire d'une coloration {sommet: couleur}.
     """
+    start_time = time.perf_counter()
     # tri décroissant des sommets par degrés
     Sommet_trié = sorted(graphe, key=lambda sommet: len(graphe[sommet]), reverse=True)
     # Dictionaire de coloration
@@ -30,27 +32,19 @@ def welsh_Powell(graphe):
         else:
             couleur += 1
             coloration[sommet] = couleur
-    
-    return coloration
+    end_time = time.perf_counter()
+    duree = (end_time - start_time)
+    return coloration , duree
 
-def evaluer_coloration(graphe, coloration): # A revoir
+
+def nb_couleur(coloration):
     """
-    Évalue une coloration de graphe en comptant le nombre de conflits.
+    Calcul du nombre de couleur utilisée dans une coloration.
 
-    :param graphe: Dictionnaire représentant le graphe.
-    :param coloration: Dictionnaire {sommet: couleur}.
-    :return: Nombre de conflits.
+    :param coloration: Dictionnaire d'une coloration {sommet: couleur}.
+    :return: Nombre de couleur utilisée.
     """
-    conflits = 0
-
-    for sommet, voisins in graphe.items():
-        for voisin in voisins:
-            if voisin in coloration and coloration[voisin] == coloration[sommet]:
-                conflits += 1
-
-    return conflits // 2
-
-        
+    return len(set(coloration.values()))
 
 
 

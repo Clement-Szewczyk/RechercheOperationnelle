@@ -1,5 +1,11 @@
 # Suivie du projet
 
+**03/01/2025**
+
+Clément : 
+
+Ajout du temps de calcul de welsh powell
+
 **31/12/2024**
 
 Clément :
