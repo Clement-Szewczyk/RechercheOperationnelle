@@ -1,5 +1,5 @@
 
-from graphviz import Digraph
+
 
 # Parseur DIMACS pour les graphes au format .col
 
@@ -46,7 +46,6 @@ def lire_graphe_col(fichier):
 
 # Exportateur de graphe au format .col
 
-
 def exporter_graphe_col(fichier, graphe):
     """
     Exporte un graphe sous forme de liste d'adjacence dans un fichier .col.
@@ -63,41 +62,6 @@ def exporter_graphe_col(fichier, graphe):
                         f.write(f"e {sommet} {voisin}\n")
     except Exception as e:
         print(f"Une erreur s'est produite lors de l'écriture du fichier : {e}")
-
-
-# Convertisseur de graphe en format DOT et PNG
-
-def to_dot(graphe):
-    """
-    Convertit un graphe sous forme de liste d'adjacence en un graphe au format DOT.
-
-    :param graphe: Dictionnaire représentant le graphe sous forme de liste d'adjacence.
-    :return: Une chaîne de caractères représentant le graphe au format DOT.
-    """
-    dot = Digraph()
-    
-    # Sommets
-    for sommet in graphe:
-        dot.node(str(sommet))
-    for sommet, voisins in graphe.items():
-        for voisin in voisins:
-            if sommet < voisin:
-                dot.edge(str(sommet), str(voisin))
-
-    return dot
-
-def to_png(graphe, fichier_png):
-    """
-    Convertit un graphe sous forme de liste d'adjacence en un fichier PNG.
-
-    :param graphe: Dictionnaire représentant le graphe sous forme de liste d'adjacence.
-    :param fichier_png: Chemin du fichier PNG.
-    """
-    dot = to_dot(graphe)
-    dot.render(fichier_png, format='png', cleanup=True)
-
-
-
 
 
 # Modification du graphe
@@ -144,7 +108,7 @@ def supprimer_Sommet(graphe, sommet):
         print(f"Le sommet {sommet} n'existe pas dans le graphe.")
 
 
-# Affichage du graphe
+# Affichage du graphe 
 
 def afficher_graphe(graphe):
     """
@@ -155,6 +119,8 @@ def afficher_graphe(graphe):
     for sommet, voisins in graphe.items():
         print(f"{sommet} -> {', '.join(map(str, voisins))}")
 
+
+# Génération d'un graphe colorié
 
 def graphe_colorie(graphe, coloration):
     """
@@ -171,6 +137,19 @@ def graphe_colorie(graphe, coloration):
 
     return graphe_colore
 
+
+def est_valide(graphe):
+    """
+    Vérifie si le graphe est coloré. 
+
+    :param graphe 
+    :return: True si le graphe est de la forme {Sommet: (couleur, [voisins])}, False sinon.
+    """
+    return all(isinstance(v, tuple) and len(v) == 2 for v in graphe.values())
+
+
+# Évaluation d'une coloration
+
 def evaluer_coloration(graphe_colore):
     """
     Évalue une coloration de graphe en comptant le nombre de conflits.
@@ -178,7 +157,9 @@ def evaluer_coloration(graphe_colore):
     :param graphe_colore: Dictionnaire représentant le graphe coloré avec la structure {Sommet: (couleur, [voisins])}.
     :return: Nombre de conflits.
     """
-    
+
+    if (not est_valide(graphe_colore)):
+        raise ValueError("Le graphe coloré n'est pas valide.")
     score = 0   
     for sommet, (couleur, voisins) in graphe_colore.items():
         for voisin in voisins:
@@ -186,6 +167,9 @@ def evaluer_coloration(graphe_colore):
                 score += 1
     return score // 2
 
+
+ 
+# Exporter un graphe coloré au format .col
 def exporter_graphe_colore(grapheColore, fichier):
     """
     Exporter un graphe coloré dans un fichier .col.
@@ -215,6 +199,7 @@ def exporter_graphe_colore(grapheColore, fichier):
         print(f"Une erreur s'est produite lors de l'écriture du fichier : {e}")
 
 
+# Lire un graphe coloré au format .col
 def lire_graphe_colore(fichier):
     """
     Lit un fichier .col et retourne une structure de graphe coloré sous forme de liste d'adjacence.
@@ -272,8 +257,6 @@ if __name__ == "__main__":
         print("Graphe modifié :")
         afficher_graphe(graphe)
         print(graphe)
-        dot = to_dot(graphe)
-        print(dot)
-        to_png(graphe, 'images/col')
+
     else:
         print("Le graphe n'a pas pu être chargé.")

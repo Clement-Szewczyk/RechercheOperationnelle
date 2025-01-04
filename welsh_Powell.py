@@ -9,32 +9,27 @@ def welsh_Powell(graphe):
     :return: Dictionnaire d'une coloration {sommet: couleur}.
     """
     start_time = time.perf_counter()
-    # tri décroissant des sommets par degrés
+
+    # Tri décroissant des sommets par degrés
     Sommet_trié = sorted(graphe, key=lambda sommet: len(graphe[sommet]), reverse=True)
     # Dictionaire de coloration
     coloration = {}
-    couleur = 0
 
     # Parcours des sommets triés
     for sommet in Sommet_trié:
+        couleurs_voisins = {coloration[voisin] for voisin in graphe[sommet] if voisin in coloration}
 
-        couleur_disponible = True
-
-        # Parcours des voisins du sommet
-        for voisin in graphe[sommet]:
-            # Si le voisin a la même couleur que le sommet
-            if voisin in coloration and coloration[voisin] == couleur:
-                couleur_disponible = False
-                break
-        
-        if couleur_disponible:
-            coloration[sommet] = couleur
-        else:
+        # Trouver la plus petite couleur non utilisée
+        couleur = 0
+        while couleur in couleurs_voisins:
             couleur += 1
-            coloration[sommet] = couleur
+        coloration[sommet] = couleur
+
     end_time = time.perf_counter()
-    duree = (end_time - start_time)
-    return coloration , duree
+    duree = end_time - start_time
+
+    return coloration, duree
+
 
 
 def nb_couleur(coloration):
@@ -45,6 +40,8 @@ def nb_couleur(coloration):
     :return: Nombre de couleur utilisée.
     """
     return len(set(coloration.values()))
+
+
 
 
 

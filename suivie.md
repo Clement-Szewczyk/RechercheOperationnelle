@@ -1,5 +1,13 @@
 # Suivie du projet
 
+**04/01/2025**
+
+Clément : 
+
+Déplacement des fonctions permettants l'exportation en image (`to_dot` et `to_png`) dans le fichier `dot_png.py` 
+
+Création de la fonction `est_valide` pour si un graphe est coloré ou non. Elle retourne `True` si le graphe est coloré et `False` sinon.
+
 **03/01/2025**
 
 Clément : 

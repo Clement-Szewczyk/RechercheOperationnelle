@@ -8,6 +8,7 @@ fichier = "graphe/DSJC1000.9.col"
 graphe  = ls.lire_graphe_col(fichier)
 #print("Graphe : ", graphe)
 
+
 print("Nombre de sommets :", len(graphe))
 print("Nombre d'arêtes :", sum(len(voisins) for voisins in graphe.values()) // 2)
 
@@ -21,6 +22,8 @@ print("Nombre de couleurs : ", nb_couleur)
 
 graphe_colore = ls.graphe_colorie(graphe, coloration)
 #print("Graphe coloré : ", graphe_colore)
+
+print("Validation ", ls.est_valide(graphe_colore))
 
 score = ls.evaluer_coloration(graphe_colore)
 print("Score : ", score)
