@@ -99,7 +99,7 @@ def hill_climbing(graphe, max_iterations=1000, perturbation_prob=0.1):
 
 # Exemple d'utilisation
 if __name__ == "__main__":
-    chemin_fichier = 'graphe/test_hill.col'  # Remplacez par votre fichier
+    chemin_fichier = 'graphe/test5.col'  # Remplacez par votre fichier
     graphe = ls.lire_graphe_col(chemin_fichier)
 
     if graphe:
