@@ -1,14 +1,17 @@
-import liste_successeur  as ls 
-
 import random
+import time
+import liste_successeur as ls
 
-def evaluation(graphe, coloration):
-    """
-    Évalue la qualité d'une coloration.
-    :param graphe: Dictionnaire représentant le graphe.
-    :param coloration: Dictionnaire {sommet: couleur}.
-    :return: Nombre de conflits dans la coloration.
-    """
+
+# Fonction pour générer une solution initiale
+def initialiser_coloration(graphe):
+    print("Initialisation de la coloration...")
+    coloration = {sommet: random.randint(0, len(graphe) - 1) for sommet in graphe}
+    print("Coloration initiale :", coloration)
+    return coloration
+
+# Fonction pour calculer les conflits dans une coloration
+def compter_conflits(graphe, coloration):
     conflits = 0
     for sommet, voisins in graphe.items():
         for voisin in voisins:
@@ -16,43 +19,96 @@ def evaluation(graphe, coloration):
                 conflits += 1
     return conflits // 2  # Chaque conflit est compté deux fois
 
-def generer_voisin(coloration, graphe, couleurs):
-    """
-    Génère une nouvelle solution en modifiant aléatoirement la couleur d'un sommet.
-    :param coloration: Dictionnaire {sommet: couleur}.
-    :param graphe: Dictionnaire représentant le graphe.
-    :param couleurs: Liste des couleurs possibles.
-    :return: Une nouvelle coloration.
-    """
-    voisin = coloration.copy()
-    sommet_a_modifier = random.choice(list(graphe.keys()))
-    nouvelle_couleur = random.choice(couleurs)
-    voisin[sommet_a_modifier] = nouvelle_couleur
-    return voisin
+# Fonction pour réduire activement le nombre de couleurs
+def reduire_nombre_couleurs(graphe, coloration):
+    print("Réduction active du nombre de couleurs...")
+    couleurs_utilisees = set(coloration.values())
+    for couleur in sorted(couleurs_utilisees):
+        sommets_a_recolorier = [sommet for sommet, col in coloration.items() if col == couleur]
+        for sommet in sommets_a_recolorier:
+            for nouvelle_couleur in range(len(couleurs_utilisees)):
+                if nouvelle_couleur != couleur:
+                    coloration[sommet] = nouvelle_couleur
+                    if compter_conflits(graphe, coloration) == 0:
+                        break
+            else:
+                coloration[sommet] = couleur  # Restaurer si aucune couleur n'était valide
+    print("Nouvelle coloration après réduction :", coloration)
+    return coloration
 
-def hill_climbing(graphe, solution_initiale, couleurs, max_iterations=1000):
-    """
-    Implémente l'algorithme de Hill-Climbing pour la coloration de graphe.
-    :param graphe: Dictionnaire représentant le graphe.
-    :param solution_initiale: Dictionnaire {sommet: couleur}.
-    :param couleurs: Liste des couleurs possibles.
-    :param max_iterations: Nombre maximal d'itérations.
-    :return: Meilleure solution trouvée et son score.
-    """
-    solution = solution_initiale
-    meilleure_solution = solution
-    meilleure_score = evaluation(graphe, solution)
+# Fonction pour trouver une meilleure solution dans le voisinage
+def ameliorer_coloration(graphe, coloration):
+    print("Amélioration de la coloration...")
+    meilleure_coloration = coloration.copy()
+    meilleur_score = compter_conflits(graphe, coloration)
+    print("Score actuel :", meilleur_score)
 
-    for _ in range(max_iterations):
-        voisin = generer_voisin(solution, graphe, couleurs)
-        score_voisin = evaluation(graphe, voisin)
+    for sommet in graphe:
+        couleur_actuelle = coloration[sommet]
+        for nouvelle_couleur in range(len(graphe)):
+            if nouvelle_couleur != couleur_actuelle:
+                coloration[sommet] = nouvelle_couleur
+                score = compter_conflits(graphe, coloration)
+                if score < meilleur_score:
+                    meilleure_coloration = coloration.copy()
+                    meilleur_score = score
+        coloration[sommet] = couleur_actuelle  # Restaurer la couleur initiale
 
-        if score_voisin < meilleure_score:
-            meilleure_solution = voisin
-            meilleure_score = score_voisin
+    print("Meilleur score après amélioration :", meilleur_score)
+    return meilleure_coloration, meilleur_score
 
-        # Critère d'arrêt si aucune erreur
-        if meilleure_score == 0:
-            break
+# Hill Climbing avec gestion des optima locaux
+def hill_climbing(graphe, max_iterations=1000, perturbation_prob=0.1):
+    print("Démarrage de l'algorithme de Hill Climbing...")
+    coloration = initialiser_coloration(graphe)
+    conflits = compter_conflits(graphe, coloration)
+    print("Conflits initiaux :", conflits)
+    iterations = 0
+    debut = time.time()
 
-    return meilleure_solution, meilleure_score
+    while conflits > 0 and iterations < max_iterations:
+        print(f"\nIteration {iterations + 1}...")
+        nouvelle_coloration, nouveau_score = ameliorer_coloration(graphe, coloration)
+        if nouveau_score < conflits:
+            print("Amélioration trouvée. Mise à jour de la coloration.")
+            coloration = nouvelle_coloration
+            conflits = nouveau_score
+        else:
+            # Perturbation aléatoire pour échapper aux optima locaux
+            if random.random() < perturbation_prob:
+                sommet = random.choice(list(graphe.keys()))
+                ancienne_couleur = coloration[sommet]
+                coloration[sommet] = random.randint(0, len(graphe) - 1)
+                print(f"Perturbation aléatoire : sommet {sommet} changé de couleur {ancienne_couleur} à {coloration[sommet]}.")
+
+        # Réduction active des couleurs
+        coloration = reduire_nombre_couleurs(graphe, coloration)
+        iterations += 1
+
+    temps_execution = time.time() - debut
+    nombre_couleurs = len(set(coloration.values()))
+    print("\nNombre de couleurs utilisées :", nombre_couleurs)
+    print("Conflits restants après convergence :", conflits)
+    return {
+        "coloration": coloration,
+        "conflits": conflits,
+        "iterations": iterations,
+        "temps_execution": temps_execution,
+        "nombre_couleurs": nombre_couleurs,
+    }
+
+# Exemple d'utilisation
+if __name__ == "__main__":
+    chemin_fichier = 'graphe/test_hill.col'  # Remplacez par votre fichier
+    graphe = ls.lire_graphe_col(chemin_fichier)
+
+    if graphe:
+        resultat = hill_climbing(graphe, max_iterations=10000, perturbation_prob=0.05)
+        print("\nRésultats finaux :")
+        print("Coloration finale :", resultat["coloration"])
+        print("Conflits restants :", resultat["conflits"])
+        print("Nombre d'itérations :", resultat["iterations"])
+        print("Temps d'exécution :", resultat["temps_execution"], "secondes")
+        print("Nombre de couleurs utilisées :", resultat["nombre_couleurs"])
+    else:
+        print("Erreur lors de la lecture du graphe.")

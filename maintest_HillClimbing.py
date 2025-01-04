@@ -1,19 +1,23 @@
-from liste_successeur import lire_graphe_col
-from welsh_Powell import welsh_Powell
-from hill_Climbing import hill_climbing
+import hill_Climbing as hc
+import liste_successeur as ls
 
-# Charger le graphe
-chemin_fichier = 'graphe/test2.col'
-graphe = lire_graphe_col(chemin_fichier)
+# Chargement du graphe à partir d'un fichier DIMACS
+fichier = "graphe/test5.col"
+graphe = ls.lire_graphe_col(fichier)
 
-# Générer une solution initiale avec Welsh-Powell
-solution_initiale = welsh_Powell(graphe)
+if graphe:
+    # Exécuter l'algorithme de Hill Climbing
+    solution, nb_colors, execution_time, iterations, residual_conflicts = hc.hill_climbing(graphe)
 
-# Liste des couleurs possibles
-couleurs = [0, 1, 2, 3, 4]  # Modifier selon les besoins
+    # Afficher les résultats
+    print("Fichier :", fichier)
+    print("Nombre de couleurs utilisées :", nb_colors)
+    print("Temps d'exécution :", execution_time, "secondes")
+    print("Nombre d'itérations :", iterations)
+    print("Conflits résiduels :", residual_conflicts)
 
-# Appliquer Hill-Climbing
-solution_finale, score = hill_climbing(graphe, solution_initiale, couleurs)
-
-print("Solution finale :", solution_finale)
-print("Conflits restants :", score)
+    # Exporter la solution colorée
+    graphe_colore = ls.graphe_colorie(graphe, solution)
+    ls.exporter_graphe_colore(graphe_colore, "graphe/solution_hill_climbing.col")
+else:
+    print("Le graphe n'a pas pu être chargé.")
