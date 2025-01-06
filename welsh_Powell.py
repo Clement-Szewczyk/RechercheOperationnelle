@@ -28,6 +28,7 @@ def welsh_Powell(graphe):
     end_time = time.perf_counter()
     duree = end_time - start_time
 
+    print(f"Temps d'exécution de Welsh-Powell : {duree:.9f} secondes")  # Affichage précis
     return coloration, duree
 
 

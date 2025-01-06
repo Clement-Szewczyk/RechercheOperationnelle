@@ -1,6 +1,7 @@
 import random
 import time
 import liste_successeur as ls
+import welsh_Powell as wp
 
 
 # Fonction pour générer une solution initiale
@@ -57,8 +58,7 @@ def ameliorer_coloration(graphe, coloration):
     print("Meilleur score après amélioration :", meilleur_score)
     return meilleure_coloration, meilleur_score
 
-# Hill Climbing avec gestion des optima locaux
-def hill_climbing(graphe, max_iterations=1000, perturbation_prob=0.1):
+def hill_climbing_pasopti(graphe, max_iterations=1000, perturbation_prob=0.1):
     print("Démarrage de l'algorithme de Hill Climbing...")
     coloration = initialiser_coloration(graphe)
     conflits = compter_conflits(graphe, coloration)
@@ -97,13 +97,54 @@ def hill_climbing(graphe, max_iterations=1000, perturbation_prob=0.1):
         "nombre_couleurs": nombre_couleurs,
     }
 
+def hill_climbing_opti(graphe, max_iterations=1000, perturbation_prob=0.1):
+    print("Démarrage de l'algorithme de Hill Climbing...")
+    coloration, temps_initialisation = wp.welsh_Powell(graphe)
+    print(f"Initialisation par Welsh-Powell effectuée en {temps_initialisation:.8f} secondes.")
+    conflits = compter_conflits(graphe, coloration)
+    print("Conflits initiaux :", conflits)
+    iterations = 0
+    debut = time.time()
+
+    while conflits > 0 and iterations < max_iterations:
+        print(f"\nIteration {iterations + 1}...")
+        nouvelle_coloration, nouveau_score = ameliorer_coloration(graphe, coloration)
+        if nouveau_score < conflits:
+            print("Amélioration trouvée. Mise à jour de la coloration.")
+            coloration = nouvelle_coloration
+            conflits = nouveau_score
+        else:
+            # Perturbation aléatoire pour échapper aux optima locaux
+            if random.random() < perturbation_prob:
+                sommet = random.choice(list(graphe.keys()))
+                ancienne_couleur = coloration[sommet]
+                coloration[sommet] = random.randint(0, len(graphe) - 1)
+                print(f"Perturbation aléatoire : sommet {sommet} changé de couleur {ancienne_couleur} à {coloration[sommet]}.")
+
+        # Réduction active des couleurs
+        coloration = reduire_nombre_couleurs(graphe, coloration)
+        iterations += 1
+
+    temps_execution = time.time() - debut
+    nombre_couleurs = len(set(coloration.values()))
+    print("\nNombre de couleurs utilisées :", nombre_couleurs)
+    print("Conflits restants après convergence :", conflits)
+    return {
+        "coloration": coloration,
+        "conflits": conflits,
+        "iterations": iterations,
+        "temps_execution": temps_execution,
+        "nombre_couleurs": nombre_couleurs,
+    }
+
+
 # Exemple d'utilisation
 if __name__ == "__main__":
-    chemin_fichier = 'graphe/myciel7.col'  # Remplacez par votre fichier
+    chemin_fichier = 'graphe/queen9_9.col'  # Remplacez par votre fichier
     graphe = ls.lire_graphe_col(chemin_fichier)
 
     if graphe:
-        resultat = hill_climbing(graphe, max_iterations=10000, perturbation_prob=0.05)
+        resultat = hill_climbing_opti(graphe, max_iterations=10000, perturbation_prob=0.05)
         print("\nRésultats finaux :")
         print("Coloration finale :", resultat["coloration"])
         print("Conflits restants :", resultat["conflits"])
