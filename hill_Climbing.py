@@ -11,8 +11,6 @@ def initialiser_coloration(graphe):
     print("Coloration initiale :", coloration)
     return coloration
 
-
-
 # Fonction pour calculer les conflits dans une coloration
 def compter_conflits(graphe, coloration):
     conflits = 0
