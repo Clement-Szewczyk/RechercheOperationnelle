@@ -1,0 +1,11 @@
+c Couleur Noeud
+a 2 0
+a 3 1
+a 1 2
+a 4 2
+p edge 4 5
+e 2 3
+e 2 4
+e 3 4
+e 1 2
+e 1 3
