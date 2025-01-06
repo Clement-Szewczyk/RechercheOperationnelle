@@ -8,7 +8,7 @@ def main():
 
     print("Projet Coloration de Graphe")
     print("Auteur : Jade Delebecque et Clément Szewczyk")
-
+    print("\n")
     # Lecture d'un fichier de graphe modification
 
     fichier = "graphe/test1.col"

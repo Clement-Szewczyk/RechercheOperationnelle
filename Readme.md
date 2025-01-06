@@ -1,3 +1,8 @@
+---
+title: "Projet de coloration de graphe"
+author: "Jade Delebecque et Clément Szewczyk"
+date: "Decembre 2024"
+
 # Projet de coloration de graphe 
 
 # Objectif
