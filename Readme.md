@@ -4,11 +4,11 @@ author: "Jade Delebecque et Clément Szewczyk"
 date: "Decembre 2024"
 ---
 
-# Projet de coloration de graphe 
+# Projet de coloration de graphe
 
 # Objectif
 
-L'objectif est de développer deux algorithmes de coloration de graphe: 
+L'objectif est de développer deux algorithmes de coloration de graphe:
 
 - Welsh Powell
 - Hill Climbing
@@ -17,9 +17,6 @@ L'objectif est de développer deux algorithmes de coloration de graphe:
 
 - `liste_successeur.py` : Fichier contenant les fonctions pour lire, exporter et modifier un graphe.
 - `welsh_powell.py` : contient l'algorithme de Welsh Powell
-- `hill_Climning.py` : Contient l'algorithme de Hill Climbing
+- `hill_Climning.py` : Contient l'algorithme de Hill Climbing optmisé et pas optimisé
 - `main.py` : Main permettant de tous tester
-- dossier `graphe` : contient les fichiers DIMACS de graphe à colorier et colorié 
-
-
-
+- dossier `graphe` : contient les fichiers DIMACS de graphe à colorier et colorié

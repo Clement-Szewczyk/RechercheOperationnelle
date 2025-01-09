@@ -1,6 +1,6 @@
 import welsh_Powell as wp
 import liste_successeur as ls
-
+import hill_Climbing as hc
 
 
 
@@ -37,10 +37,8 @@ def main():
 
     print(graphe)
 
-
-
     print("\n")
-    fichier = "graphe/anna.col"
+    fichier = "graphe/queen9_9.col" # CHANGER ICI FICHIER
     print("Lecture du fichier : ", fichier)
 
     graphe_Welsh_Powell = ls.lire_graphe_col(fichier)
@@ -81,7 +79,55 @@ def main():
     print("Nombre de couleurs de l'import: ", nb_couleur_import)
     print("\n")
 
+
+    # Hill Climbing
+
     print("Coloration de graphe avec Hill Climbing")
+    print("\n")
+
+    # Lecture et affichage des caractéristiques du graphe
+    fichier = "graphe/queen9_9.col" # CHANGER ICI FICHIER
+    print("Lecture du fichier : ", fichier)
+    graphe_HC = ls.lire_graphe_col(fichier)
+
+    if not graphe_HC:
+        print("Erreur lors de la lecture du graphe.")
+        return
+
+    print("Nombre de sommets :", len(graphe_HC))
+    print("Nombre d'arêtes :", sum(len(voisins) for voisins in graphe_HC.values()) // 2)
+    print("\n")
+
+    # Hill Climbing non optimisé
+    print("Coloration de graphe avec Hill Climbing (non optimisé)")
+    resultats_hill_pasopti = hc.hill_climbing_pasopti(
+        graphe_HC, 
+        max_iterations=10000, 
+        perturbation_prob=0.1
+    )
+    print("\nRésultats finaux pour Hill Climbing non optimisé :")
+    print("Coloration finale :", resultats_hill_pasopti["coloration"])
+    print("Conflits restants :", resultats_hill_pasopti["conflits"])
+    print("Nombre d'itérations :", resultats_hill_pasopti["iterations"])
+    print("Temps d'exécution :", resultats_hill_pasopti["temps_execution"], "secondes")
+    print("Nombre de couleurs utilisées :", resultats_hill_pasopti["nombre_couleurs"])
+    print("\n")
+
+    # Hill Climbing optimisé
+    print("Coloration de graphe avec Hill Climbing (optimisé)")
+    resultats_hill_opti = hc.hill_climbing_opti(
+        graphe_HC, 
+        max_iterations=10000, 
+        perturbation_prob=0.1, 
+        max_couleurs=3 
+    )
+    print("\nRésultats finaux pour Hill Climbing optimisé :")
+    print("Coloration finale :", resultats_hill_opti["coloration"])
+    print("Conflits restants :", resultats_hill_opti["conflits"])
+    print("Nombre d'itérations :", resultats_hill_opti["iterations"])
+    print("Temps d'exécution :", resultats_hill_opti["temps_execution"], "secondes")
+    print("Nombre de couleurs utilisées :", resultats_hill_opti["nombre_couleurs"])
+
 
 if __name__ == "__main__":
     main()
