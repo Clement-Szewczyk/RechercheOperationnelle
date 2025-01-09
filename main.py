@@ -2,8 +2,6 @@ import welsh_Powell as wp
 import liste_successeur as ls
 import hill_Climbing as hc
 
-
-
 def main():
 
     print("Projet Coloration de Graphe")
