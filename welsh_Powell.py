@@ -31,8 +31,6 @@ def welsh_Powell(graphe):
     print(f"Temps d'exécution de Welsh-Powell : {duree:.9f} secondes")  # Affichage précis
     return coloration, duree
 
-
-
 def nb_couleur(coloration):
     """
     Calcul du nombre de couleur utilisée dans une coloration.

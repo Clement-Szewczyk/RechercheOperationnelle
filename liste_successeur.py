@@ -1,14 +1,11 @@
-
-
-
 # Parseur DIMACS pour les graphes au format .col
 
 def lire_graphe_col(fichier):
     """
-    Lit un fichier .col et retourne une structure de graphe sous forme de liste d'adjacence.
+    Lit un fichier .col et retourne une structure de graphe sous forme de liste de successeurs.
 
     :param fichier: Chemin du fichier .col.
-    :return: Un dictionnaire représentant le graphe sous forme de liste d'adjacence.
+    :return: Un dictionnaire représentant le graphe sous forme de liste de successeurs.
     """
     graphe = {}
     
@@ -232,8 +229,6 @@ def lire_graphe_colore(fichier):
 
 
     return graphe
-
-
 
 
 # Exemple d'utilisation
